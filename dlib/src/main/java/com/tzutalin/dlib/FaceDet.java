@@ -55,6 +55,13 @@ public class FaceDet {
         VisionDetRet[] detRets = jniBitmapDetect(bitmap);
         return Arrays.asList(detRets);
     }
+    
+    @Nullable
+    @WorkerThread
+    public List<VisionDetRet> detect(@NonNull byte[] rawFrame, int rotation, int width, int height) {
+        VisionDetRet[] detRets = jniRawDetect(rawFrame, rotation, width, height);
+        return Arrays.asList(detRets);
+    }
 
     @Override
     protected void finalize() throws Throwable {
@@ -80,4 +87,8 @@ public class FaceDet {
 
     @Keep
     private synchronized native VisionDetRet[] jniDetect(String path);
+    
+    @Keep
+    private synchronized native VisionDetRet[] jniRawDetect(byte[] rawFrame, int rotation, int width, int height);
+
 }
